@@ -1,8 +1,49 @@
 import scipy.io as scio
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms,utils
+from torchvision import transforms
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
+
+
+
+
+'''
+Generate a gausssian liked matrix centered at the pixel "center"
+if we change mu(the distance toward center), this will generate a circle gaussian
+'''
+def normal(w,h,sigma,center=(160,90),mu=0):
+    x,y=np.meshgrid(np.linspace(-2./w *center[0], 2./w*(w-center[0]),num=w),
+                    np.linspace(-2./h *center[1], 2./h*(h-center[1]),num=h))
+    d = np.sqrt(x*x+y*y)
+    g = np.exp(-( (d-mu)**2 / ( 2.0 * sigma**2 ) ) )
+    return g
+
+'''
+Image show for a batch of data
+'''
+def imshow(inp, label, title=None):
+    
+    inp = inp.numpy().transpose((1, 2, 0))
+    #You can just delete these line to get a better image
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    inp = np.clip(std * inp + mean, 0,1)
+    #################################################
+    s=inp.shape
+    annot=np.zeros(shape=(s[0],s[1]))
+    for i in range(label.shape[0]):
+        for p in range(label.shape[1]):
+            annot[:,320*i:320*(i+1)]+=normal(320,180,0.02,(int(label[i][p][0]),int(label[i][p][1])))
+    inp[:,:,0]+=annot*5       
+    inp[:,:,2]+=annot*2
+    plt.figure(figsize=(20,20))
+    plt.imshow(inp)
+    if title is not None:
+        plt.title(title)
+    plt.pause(0.001)  # pause a bit so that plots are updated
+
+
 def load_data(path):
     dataFile = path + "/YoutubePose/YouTube_Pose_dataset.mat"
     data = scio.loadmat(dataFile)
@@ -47,6 +88,7 @@ preprocess = transforms.Compose([
     transforms.ToTensor()
     
 ])
+    
 
 def default_loader(path):
     img_pil = Image.open(path)
@@ -73,3 +115,5 @@ class trainset(Dataset):
 
     def __len__(self):
         return len(self.images)
+
+
