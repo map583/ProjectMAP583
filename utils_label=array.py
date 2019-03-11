@@ -51,7 +51,7 @@ def imshow(inp, label=None, title=None):
     annot=np.zeros(shape=(s[0],s[1]))
     for i in range(label.shape[0]):
         for p in range(label.shape[1]):
-            annot[:,320*i:320*(i+1)]+=label[i,p].numpy()#normal(320,180,0.02,(int(label[i][p][0]),int(label[i][p][1])))
+            annot[:,320*i:320*(i+1)]+=normal(320,180,0.02,(int(label[i][p][0]),int(label[i][p][1])))
     inp[:,:,0]+=annot*5       
     inp[:,:,2]+=annot*2
     plt.figure(figsize=(20,20))
@@ -150,7 +150,7 @@ class trainset(Dataset):
         target = self.target[index]
         #print(target)
         target = target/np.array([ow/new_w,oh/new_h])
-        target = label2heatmap(new_w,new_h,target,sigma=0.02)
+        target = label2heatmap(new_w,new_h,target,sigma=0.05)
         #print(target.shape)
         return img,target
 
