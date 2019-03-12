@@ -150,7 +150,7 @@ class trainset(Dataset):
         target = self.target[index]
         #print(target)
         target = target/np.array([ow/new_w,oh/new_h])
-        target = label2heatmap(new_w,new_h,target,sigma=0.05)
+        target = torch.tensor(target,dtype=torch.float32)
         #print(target.shape)
         return img,target
 
