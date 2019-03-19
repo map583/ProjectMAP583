@@ -48,6 +48,24 @@ right elbow
     right wrist
 </p>
 
+## Result
+<p align='center'>
+    <img src="Images/prediction.png", width="900">
+    Prediction by ResNet152 transfer learning
+</p>
+    
+
+<p align='center'>
+    <img src="Images/groudtruth.png", width="900">
+    Ground Truth in the YouTube Pose
+</p>
+
+
+<p align='center'>
+    <img src="Images/res152metric.png", width="400">
+    <img src="Images/hourmetric.png", width="400">
+</p>
+
 ***To be continued***
 
 ***标准结局***
