@@ -85,6 +85,10 @@ right elbow
 </p>
 
 
+The metric below present a kind of performance of the model: Left is the ```resnet152``` the right metric represents the ```Hourglass``` performance after 60 epochs of training on the Youtube Pose data set.
+
+X: the pixel distance between the ground truth and the prediction position
+Y: the proportion of the images in the test set that verify the prediction ||(x_p,y_p)-(x_t,y_t)||<X
 <p align='center'>
     <img src="Images/res152metric.png", width="400">
     <img src="Images/hourmetric.png", width="400">
