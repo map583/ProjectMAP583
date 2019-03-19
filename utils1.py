@@ -6,6 +6,8 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import torchvision
 import torch
+#new_w=224
+#new_h=224
 
 '''
 Give a of label
@@ -39,7 +41,9 @@ def normal(w,h,sigma,center=(160,90),mu=0):
 '''
 Image show for a batch of data
 '''
-def imshow(inp, label=None, title=None):
+def imshow(inp, input_size=[320,180],label=None, title=None):
+    
+    
     
     inp = inp.numpy().transpose((1, 2, 0))
     #You can just delete these line to get a better image
@@ -48,10 +52,13 @@ def imshow(inp, label=None, title=None):
     inp = np.clip(std * inp + mean, 0,1)
     #################################################
     s=inp.shape
+    
+    new_w,new_h =input_size[0],input_size[1]
+    
     annot=np.zeros(shape=(s[0],s[1]))
     for i in range(label.shape[0]):
         for p in range(label.shape[1]):
-            annot[:,320*i:320*(i+1)]+=normal(320,180,0.02,(int(label[i][p][0]),int(label[i][p][1])))
+            annot[:,new_w*i:new_w*(i+1)]+=normal(new_w,new_h,0.02,(int(label[i][p][0]),int(label[i][p][1])))
     inp[:,:,0]+=annot*5       
     inp[:,:,2]+=annot*2
     plt.figure(figsize=(20,20))
@@ -120,36 +127,36 @@ def load_data(path):
     
     return data_rearrange,paths,labels
 
-new_w=320
-new_h=180
-preprocess = transforms.Compose([
-    #transform all image into 16:9
-    transforms.Resize(size=(new_h,new_w)),
-    transforms.ToTensor()
-    
-])
+
     
 
-def default_loader(path):
+def default_loader(path,new_w,new_h):
     img_pil = Image.open(path)
     ow,oh=img_pil.size
+    preprocess = transforms.Compose([
+    #transform all image into 16:9
+    transforms.Resize(size=(new_h,new_w)),
+    transforms.ToTensor()])
     img_tensor = preprocess(img_pil)
+    
     return img_tensor,ow,oh
 
 class trainset(Dataset):
-    def __init__(self, images, labels, loader = default_loader):
+    def __init__(self, images, labels, w,h, loader = default_loader):
         self.images = images
         self.target = labels
         self.loader = loader
+        self.w=w
+        self.h=h
         
     def __getitem__(self,index):
         fn = self.images[index]
-        img,ow,oh = self.loader(fn)
+        img,ow,oh = self.loader(fn,self.w,self.h)
         #print(ow,oh)
         #print(img.shape)
         target = self.target[index]
         #print(target)
-        target = target/np.array([ow/new_w,oh/new_h])
+        target = target/np.array([ow/self.w,oh/self.h])
         target = torch.tensor(target,dtype=torch.float32)
         #print(target.shape)
         return img,target
