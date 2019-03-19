@@ -29,3 +29,16 @@ right elbow
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     right wrist
 </p>
+
+
+<p align='center'>
+    <img src="Images/prediction.png",width="600">
+    Prediction by ResNet152 transfer learning
+    <img src="Images/groudtruth.png",width="600">
+    Ground Truth in the YouTube Pose
+</p>
+
+<p align='center'>
+    <img src="Images/res152.png",width="155">
+    <img src="Images/hourglass_prediction.png",width="155">
+</p>
