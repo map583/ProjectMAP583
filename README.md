@@ -1,6 +1,6 @@
 # ProjectMAP583
 
-## Two architecture: heatmap orienated and regression orientated
+## Four architectures: heatmap orienated and regression orientated
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 **Simple Regressor**
